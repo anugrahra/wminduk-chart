@@ -66,24 +66,29 @@
 
   <div class="container">
 
-    <div class="row mb-2">
-      <div class="d-flex input-group">
-        <span class="input-group-text">Awal:</span>
-        <select name="waktu" id="waktu" class="form-select"></select>
-        <span class="input-group-text">Akhir:</span>
-        <select name="waktu2" id="waktu2" class="form-select"></select>
-        <button id="lihatrentang" onclick="lihatRentang()" class="btn btn-outline-success">Lihat</button>
+    <div class="row">
+      <div class="col">
+        <div class="d-flex input-group">
+          <span class="input-group-text">Awal:</span>
+          <select name="waktu" id="waktu" class="form-select"></select>
+          <span class="input-group-text">Akhir:</span>
+          <select name="waktu2" id="waktu2" class="form-select"></select>
+          <button id="lihatrentang" onclick="lihatRentang()" class="btn btn-outline-success">Lihat</button>
+        </div>
+      </div>
+
+      <div class="col">
+        <div class="col text-end">
+          <div class="input-group d-block">
+            <button onclick="last10Datas()" class="btn btn-outline-dark">Last 10 Datas</button>
+            <button onclick="last100Datas()" class="btn btn-outline-dark">Last 100 Datas</button>
+            <button onclick="allDatas()" class="btn btn-outline-dark">All Datas</button>
+          </div>
+        </div>
       </div>
     </div>
-
     <div class="row mb-2">
       <canvas id="myChart"></canvas>
-    </div>
-    <div class="row mb-2">
-      <div class="col text-center">
-        <button onclick="addData()" class="btn btn-outline-primary">Add Data</button>
-        <button onclick="removeData()" class="btn btn-outline-danger">Remove Data</button>
-      </div>
     </div>
   </div>
 
@@ -132,33 +137,33 @@
       config
     );
 
-    function addData() {
-      // label
-      let labelPop = myChart.data.labels2.pop();
-      let labelIndex = myChart.data.labels2.length;
-      if (labelPop !== undefined) labels.push(labelPop);
+    // function addData() {
+    //   // label
+    //   let labelPop = myChart.data.labels2.pop();
+    //   let labelIndex = myChart.data.labels2.length;
+    //   if (labelPop !== undefined) labels.push(labelPop);
 
-      // value
-      let dataPop = myChart.data.datasets[0].data2.pop();
-      let dataIndex = myChart.data.datasets[0].data2.length;
-      if (dataPop !== undefined) myChart.data.datasets[0].data.push(dataPop);
+    //   // value
+    //   let dataPop = myChart.data.datasets[0].data2.pop();
+    //   let dataIndex = myChart.data.datasets[0].data2.length;
+    //   if (dataPop !== undefined) myChart.data.datasets[0].data.push(dataPop);
 
-      myChart.update();
-    }
+    //   myChart.update();
+    // }
 
-    function removeData() {
-      // label
-      let labelIndexR = myChart.data.labels.length - 1;
-      if (labelIndexR >= 0) myChart.data.labels2.push(myChart.data.labels[labelIndexR]);
-      myChart.data.labels.pop();
+    // function removeData() {
+    //   // label
+    //   let labelIndexR = myChart.data.labels.length - 1;
+    //   if (labelIndexR >= 0) myChart.data.labels2.push(myChart.data.labels[labelIndexR]);
+    //   myChart.data.labels.pop();
 
-      // value
-      let dataIndexR = myChart.data.datasets[0].data.length - 1;
-      if (dataIndexR >= 0) myChart.data.datasets[0].data2.push(myChart.data.datasets[0].data[dataIndexR]);
-      myChart.data.datasets[0].data.pop();
+    //   // value
+    //   let dataIndexR = myChart.data.datasets[0].data.length - 1;
+    //   if (dataIndexR >= 0) myChart.data.datasets[0].data2.push(myChart.data.datasets[0].data[dataIndexR]);
+    //   myChart.data.datasets[0].data.pop();
 
-      myChart.update();
-    }
+    //   myChart.update();
+    // }
 
     let waktu = document.getElementById('waktu');
     for (let i = 0; i < labels.length; i++) {
@@ -176,6 +181,27 @@
 
       myChart.data.labels = labels.slice(startIndex, endIndex);
       myChart.data.datasets[0].data = dataWM.slice(startIndex, endIndex);
+
+      myChart.update();
+    }
+
+    function last10Datas() {
+      myChart.data.labels = labels.slice(labels.length - 10, labels.length);
+      myChart.data.datasets[0].data = dataWM.slice(dataWM.length - 10, dataWM.length);
+
+      myChart.update();
+    }
+
+    function last100Datas() {
+      myChart.data.labels = labels.slice(labels.length - 100, labels.length);
+      myChart.data.datasets[0].data = dataWM.slice(dataWM.length - 100, dataWM.length);
+
+      myChart.update();
+    }
+
+    function allDatas() {
+      myChart.data.labels = labels;
+      myChart.data.datasets[0].data = dataWM;
 
       myChart.update();
     }
